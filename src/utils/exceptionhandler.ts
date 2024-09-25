@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
+import ApiError from "./apiError";
+import mongoose from "mongoose";
 
-const Exceptionhandler = (
-  err: Error,
+export function Exceptionhandler(
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+){
   let { name, message } = err;
   // if (config.env === 'production' && !err.isOperational) {
   //   statusCode = httpStatus.INTERNAL_SERVER_ERROR;
@@ -24,10 +26,22 @@ const Exceptionhandler = (
   // if (config.env === 'development') {
   //   logger.error(err);
   // }
-  res.statusMessage = message;
-  res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
+  // res.statusMessage = message;
+  res.status(err["statusCode"]).send({
+    stausCode:err["statusCode"],
     message,
   });
 };
 
-export default Exceptionhandler;
+
+export function ErrorConverter(err:Error, req:Request, res:Response, next:NextFunction){
+  let error = err;
+  if (!(error instanceof ApiError)) {
+    const statusCode =  error instanceof mongoose.Error ? httpStatus.BAD_REQUEST : httpStatus.INTERNAL_SERVER_ERROR;
+    const message = error.message || httpStatus[statusCode];
+    error = new ApiError(statusCode, message, false, err.stack);
+  }
+  next(error);
+};
+
+

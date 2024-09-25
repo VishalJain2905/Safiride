@@ -10,10 +10,11 @@
     "@types/mongoose": "^5.11.97",
     "@types/node-cron": "^3.0.2",
     "@types/stripe": "^8.0.417",
+    "aws-sdk": "^2.1691.0",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "crypto-js": "^4.1.1",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "http-status": "^1.5.2",
@@ -22,24 +23,28 @@
     "mongoose": "^6.5.2",
     "node-cron": "^3.0.2",
     "nodemon": "^2.0.19",
+    "otp-generator": "^4.0.1",
     "razorpay": "^2.8.3",
     "stripe": "^10.6.0",
     "ts-jest": "^28.0.8",
+    "ts-node": "^10.9.2",
     "typescript": "^4.7.4"
   },
-  "name": "wheather-api",
+  "name": "safiride",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "jest -c ./jest.unit.json",
     "start": "nodemon index.ts",
-    "build":"tsc"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "@types/otp-generator": "^4.0.2",
     "jest": "^28.1.3"
   }
 }

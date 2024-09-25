@@ -2,28 +2,8 @@ import { UserModel } from "../models";
 import { User } from "../models/user.model";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import otpGenerator from "otp-generator";
 
-/**
- * @description This function is used to find a user by email
- * @param {String} email
- * @author Keshav suman
- * @returns {Promise<User|null>}
- */
-
-export async function findUserByEmail(email: string): Promise<User | null> {
-  return await UserModel.findOne({ email });
-}
-
-/**
- * @description this function creates a user in database
- * @param {User} user
- * @author Keshav suman
- * @returns {Promise<User>}
- */
-
-export async function createUser(user: User): Promise<User> {
-  return await UserModel.create(user);
-}
 
 /**
  * @description this function is used to hash password
@@ -58,3 +38,42 @@ export function comparePassword(
 export function generateToken(user: User): string {
   return jsonwebtoken.sign(user, process.env.JWT_Token!);
 }
+
+/**
+ * @description This function is used to generate authenticaton token
+ * @param {String} otp
+ * @param {Number} phone
+ * @author Keshav suman
+ * @returns {Promise<Boolean>}
+ */
+export async function sendOTPOnPhone(otp:string,phone:number): Promise<boolean> {
+  return false;
+}
+
+/**
+ * @description This function is used to generate authenticaton token
+ * @param {String} otp
+ * @param {String} email
+ * @author Keshav suman
+ * @returns {Promise<Boolean>}
+ */
+export async function sendOTPOnEmail(otp:string,email:string): Promise<boolean> {
+  return false;
+}
+
+/**
+ * @description This function is used to generate random OTP
+ * @author Keshav suman
+ * @returns {String}
+ */
+export function genrateOTP(): string {
+  if(process.env.NODE_ENV=="development"){
+    return "123456";
+  }
+  return otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });;
+}
+
+
+
+
+

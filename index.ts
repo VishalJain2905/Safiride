@@ -3,7 +3,7 @@ import Mongoose from "mongoose";
 import dotenv from "dotenv";
 import router from "./src/routes";
 import path from "path";
-import Exceptionhandler from "./src/utils/exceptionhandler";
+import {Exceptionhandler, ErrorConverter } from "./src/utils/exceptionhandler";
 
 const app = express.default();
 
@@ -13,8 +13,9 @@ dotenv.config({
 
 Mongoose.connect(
   process.env.DB_URL ??
-    "mongodb+srv://keshavsuman:8F4aPQhXD6Td6dn@chat-application.pqjjm.mongodb.net/weather_api"
+    "mongodb+srv://keshavsuman:lllj2U1sfzq0qaYB@keshav.d9jlbng.mongodb.net/safiride?retryWrites=true&w=majority"
 );
+Mongoose.set("strictQuery",true);
 Mongoose.connection.on("connected", () => {
   console.log("database connected");
 });
@@ -25,6 +26,7 @@ app.set("views", path.join(__dirname, "src/views"));
 
 app.use("/", router);
 
+app.use(ErrorConverter);
 app.use(Exceptionhandler);
 
 app.use((req, res, next) => {
@@ -33,6 +35,6 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT ?? 5000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server started at ${process.env.PORT}`);
 });
